@@ -38,8 +38,8 @@
       <li><a target="_top" href="http://{{bouncer_hostname}}:3003/child/bouncer.html?return-url={{return_url}}">user interaction in target="_top"</a></li>
       <li><a id="link-new-context" href="http://{{bouncer_hostname}}:3003/child/bouncer.html">user interaction in new context (window.open)</a></li>
     </ul>
-    <ul id="server-redirect-for-cookie">
-      <li><a target="_top" href="http://{{child_hostname}}:3003/api/redirect?url={{return_url}}">server redirect in target="_top" (set cookie)</a></li>
+    <ul id="server-redirect-for-cookie-container">
+      <li><a id="server-redirect-for-cookie" target="_top" href="http://{{child_hostname}}:3003/api/redirect?url={{return_url}}">server redirect in target="_top" (set cookie)</a></li>
     </ul>
 
   </body>
@@ -55,6 +55,13 @@
         e.preventDefault();
         fetchCookie(uuid, handleCookieCallResult.bind(this, 'green'));
       });
+    });
+
+    document.querySelector('#server-redirect-for-cookie').addEventListener('click', function (e) {
+      e.preventDefault();
+
+      window.parent.location = e.target.href;
+      const newWin = window.open("http://{{bouncer_hostname}}:3003/child/complete-redirect.html");
     });
 
     document.querySelector('#link-new-context').addEventListener('click', function (e) {

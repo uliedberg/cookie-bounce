@@ -24,7 +24,7 @@ module.exports = function (opts = {}) {
       await ctx.render(viewPath, localState);
       if (ctx.hostname == childHostname && po.base != 'bouncer.html') {
         logger.info({ hostname: ctx.hostname }, 'view request to child, indicating cacheable content');
-        ctx.set('Cache-Control', `max-age=${HTML_MAX_AGE}`);
+        // ctx.set('Cache-Control', `max-age=${HTML_MAX_AGE}`);
       }
     } catch (e) {
       logger.info({ hostname: ctx.hostname, template_error: e}, 'template error - passing on to next');
@@ -41,6 +41,7 @@ function viewState (ctx, po, childHostname, cookieName) {
     child_hostname: childHostname,
     bouncer_hostname: childHostname, // same-origin policy for listener on window unload - test with .replace(/^.+?\./, 'bouncer.'),
     return_url: ctx.query['return-url'] || (po.base != 'bouncer.html' ? ctx.request.header.referer : undefined),
+    redirect_url: ctx.query('redirect-url'),
     cookie: cookieValue ? { name: cookieName, value: cookieValue } : undefined
   }
 }
