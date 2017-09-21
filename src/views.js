@@ -41,7 +41,7 @@ function viewState (ctx, po, childHostname, cookieName) {
     child_hostname: childHostname,
     bouncer_hostname: childHostname, // same-origin policy for listener on window unload - test with .replace(/^.+?\./, 'bouncer.'),
     return_url: ctx.query['return-url'] || (po.base != 'bouncer.html' ? ctx.request.header.referer : undefined),
-    redirect_url: ctx.query('redirect-url'),
+    redirect_url: ctx.query['redirect-url'],
     cookie: cookieValue ? { name: cookieName, value: cookieValue } : undefined
   }
 }
